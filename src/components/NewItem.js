@@ -1,37 +1,34 @@
 import React from 'react'
-import ToDoItem from './ToDoItem'
 import '../sass/new-item.sass'
 
 export default class NewItem extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            placeholder: 'Новый пункт',
-            text: '',
-            count: 0,
-        }
-
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+    state = {
+        placeholder: 'Новый пункт',
+        text: '',
+        count: parseInt(localStorage.getItem('count'), 10) || 0,
     }
 
-    handleChange(event) {
-        this.setState({text: event.target.value});
+    handleChange = event => {
+        this.setState({text: event.target.value})
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-        this.props.addItem(<ToDoItem text={this.state.text} key={this.state.count}/>)
-        this.setState({
+    handleSubmit = async event => {
+        event.preventDefault()
+        this.props.addItem({
+            text: this.state.text,
+            id: this.state.count,
+            ischecked: false,
+        })
+        await this.setState({
             text: '',
             count: this.state.count + 1
         })
+        localStorage.setItem('count', this.state.count)
     }
 
     render() {
         return (
-            <form className={'new-item'} onSubmit={this.handleSubmit} >
+            <form className={'new-item'} onSubmit={this.handleSubmit}>
                 <label
                     htmlFor={'newItem'}
                     data-uk-icon="icon: plus; ratio: 1"
