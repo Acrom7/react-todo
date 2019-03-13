@@ -16,12 +16,17 @@ export default class ToDoItem extends React.Component {
         this.props.updateLocalStorage(this)
     }
 
+    removeItem = event => {
+        this.props.removeItem(this)
+    }
+
     render() {
         return (
             <div className="todo-item">
                 <input type="checkbox" className='uk-checkbox' id={this.props.id} defaultChecked={this.props.ischecked}
                        onChange={this.handleChange}/>
                 <label htmlFor={this.props.id}>{this.state.text}</label>
+                <a className="uk-icon-link" data-uk-icon="trash" onClick={this.removeItem}/>
             </div>
         )
     }

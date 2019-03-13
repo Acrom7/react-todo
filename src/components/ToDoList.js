@@ -40,17 +40,32 @@ export default class ToDoList extends React.Component {
         localStorage.setItem('items', JSON.stringify(this.state.items))
     }
 
+    removeItem = async item => {
+        console.log('Item is deleted')
+        await this.setState({
+            items: this.state.items.filter(el => el.id !== item.state.id)
+        })
+        localStorage.setItem('items', JSON.stringify(this.state.items))
+    }
+
     render() {
         return (
             <div className="todo-list">
                 {this.state.items.filter(el => !el.ischecked).map(el => {
-                    return <ToDoItem key={el.id} id={el.id} text={el.text} ischecked={el.ischecked}
-                                     updateLocalStorage={this.updateLocalStorage}/>
+                    return <ToDoItem key={el.id}
+                                     id={el.id}
+                                     text={el.text}
+                                     ischecked={el.ischecked}
+                                     updateLocalStorage={this.updateLocalStorage}
+                                     removeItem={this.removeItem}/>
                 })}
-
                 {this.state.items.filter(el => el.ischecked).map(el => {
-                    return <ToDoItem key={el.id} id={el.id} text={el.text} ischecked={el.ischecked}
-                                     updateLocalStorage={this.updateLocalStorage}/>
+                    return <ToDoItem key={el.id}
+                                     id={el.id}
+                                     text={el.text}
+                                     ischecked={el.ischecked}
+                                     updateLocalStorage={this.updateLocalStorage}
+                                     removeItem={this.removeItem}/>
                 })}
                 <NewItem addItem={this.addItem}/>
             </div>
